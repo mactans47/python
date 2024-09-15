@@ -1,0 +1,16 @@
+***********************************************************************************************************
+CREACION DE TRIGGER PARA REGISTRO AUTOMATICO DE FECHA Y HORA DE REGISTRO Y ACTUALIZACION
+***********************************************************************************************************
+ALTER TABLE nombre_tabla
+ADD COLUMN timecreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN timemodified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trigger_insertar_fecha
+BEFORE INSERT ON nombre_tabla
+FOR EACH ROW
+SET NEW.timecreated = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trigger_actualizar_fecha
+BEFORE UPDATE ON nombre_tabla
+FOR EACH ROW
+SET NEW.timemodified = CURRENT_TIMESTAMP;

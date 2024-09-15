@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predicción de la Población</title>
+</head>
+<body>
+    <h1>Gráfico de población</h1>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Pasamos los datos de años y población de Flask a JavaScript
+        var areaChartData = {
+            labels  : {{ anios | safe }},  // Pasamos los años desde Flask a labels
+            datasets: [
+                {
+                    label               : 'Población',
+                    backgroundColor     : 'rgba(60,141,188,0.9)',
+                    borderColor         : 'rgba(60,141,188,0.8)',
+                    pointRadius         : false,
+                    pointColor          : '#3b8bba',
+                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : {{ poblacion | safe }}  // Pasamos los valores de población desde Flask a data
+                }
+            ]
+        };
+
+        // Crear el gráfico utilizando Chart.js
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',  // Puedes cambiar el tipo de gráfico si lo deseas
+            data: areaChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
